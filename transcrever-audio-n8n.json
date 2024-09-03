@@ -191,25 +191,25 @@
             {
               "id": "8191c57f-d67c-47b5-ad04-347f23c5cc1e",
               "name": "url_chatwoot",
-              "value": "",
+              "value": "https://chat.setabot.com.br",
               "type": "string"
             },
             {
               "id": "86b8bcee-0dde-4b04-914a-434e8afea011",
               "name": "account_chatwoot",
-              "value": "",
+              "value": "1",
               "type": "string"
             },
             {
               "id": "466cf143-3272-4602-b205-404589b8c1a5",
               "name": "token_chatwoot",
-              "value": "",
+              "value": "ZiyV29UVmQLB8jDKa1JMhe2k",
               "type": "string"
             },
             {
               "id": "47fe3562-a12e-4e6c-8c7b-5daa2cccff95",
               "name": "token_groq",
-              "value": "",
+              "value": "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",
               "type": "string"
             }
           ]
@@ -240,21 +240,6 @@
         200
       ],
       "webhookId": "9dc4e5ad-6c12-4793-aa43-a91512205e43"
-    },
-    {
-      "parameters": {
-        "content": "Criado por Rodrigo Tanci",
-        "height": 80,
-        "color": 7
-      },
-      "id": "5e147568-c035-4ab1-9b08-93eee7eb0973",
-      "name": "Sticky Note1",
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -960,
-        -4800
-      ]
     }
   ],
   "pinData": {},
@@ -341,7 +326,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "05a13006-8386-46ab-b02a-d808c44b2bd0",
+  "versionId": "e9f8a6ff-0509-48a1-9acf-c16c431ddada",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "33738330930e3881dd5571eca013f36ddf8aab20e4ea5c1f2ebaf4a2b4668ac6"
