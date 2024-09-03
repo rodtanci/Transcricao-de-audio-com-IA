@@ -1,0 +1,358 @@
+{
+  "name": "Transcrever áudio",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "destinationKey": "mp3",
+        "options": {
+          "encoding": "base64"
+        }
+      },
+      "id": "f5e972f6-d85f-4d31-b526-0cad0df35c73",
+      "name": "Extract from File",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "mp3",
+        "options": {
+          "fileName": "audio.mp3",
+          "mimeType": "audio/mpeg"
+        }
+      },
+      "id": "373d08ab-100c-472b-8eb8-d4b5a6af4824",
+      "name": "Convert to File",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1320,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Transcrevendo audio com GROQ\n**https://console.groq.com/docs/speech-text**\n**Criado por Rodrigo Tanci**",
+        "height": 276.874686949075,
+        "width": 1609.0173500843698
+      },
+      "id": "af7aeb08-9cc3-458b-b75b-e44037f03df3",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        302.2679275171597,
+        103.125313050925
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "141e932b-5547-41bf-a393-623049e6d9f2",
+              "leftValue": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].file_type }}",
+              "rightValue": "audio",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "e5389f7e-6818-40fc-a917-a35e78521fc8",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        720,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Infos').item.json.url_chatwoot }}/api/v1/accounts/{{ $('Infos').item.json.account_chatwoot }}/conversations/{{ $('Webhook').item.json.body.conversation.id }}/messages ",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "api_access_token",
+              "value": "={{ $('Infos').item.json.token_chatwoot }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"content\": \"Transcrição:\\n{{ $json.text }}\"\n} ",
+        "options": {}
+      },
+      "id": "31fe2d80-3d38-4dbc-9ad0-0158c693b89d",
+      "name": "Envia mensagem",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1680,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/audio/transcriptions",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('Infos').item.json.token_groq }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "model",
+              "value": "whisper-large-v3"
+            },
+            {
+              "name": "temperature",
+              "value": "0.5"
+            },
+            {
+              "name": "response_format",
+              "value": "json"
+            },
+            {
+              "name": "language",
+              "value": "pt"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f629a76f-8fad-464c-b227-8d0b5fa03c50",
+      "name": "Transcreve audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1500,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "url": "={{ $('Webhook').item.json.body.conversation.messages[0].attachments[0].data_url }}",
+        "options": {}
+      },
+      "id": "0e133207-798d-4f4a-a071-c40e3089e9f2",
+      "name": "Baixa audio",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "8191c57f-d67c-47b5-ad04-347f23c5cc1e",
+              "name": "url_chatwoot",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "86b8bcee-0dde-4b04-914a-434e8afea011",
+              "name": "account_chatwoot",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "466cf143-3272-4602-b205-404589b8c1a5",
+              "name": "token_chatwoot",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "47fe3562-a12e-4e6c-8c7b-5daa2cccff95",
+              "name": "token_groq",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "f2e6bb91-ea65-422d-98c5-85bcd3ba0fad",
+      "name": "Infos",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.3,
+      "position": [
+        560,
+        200
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "9dc4e5ad-6c12-4793-aa43-a91512205e43",
+        "options": {}
+      },
+      "id": "219d8fc2-f3fb-4994-bf26-16a2993a17f5",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        400,
+        200
+      ],
+      "webhookId": "9dc4e5ad-6c12-4793-aa43-a91512205e43"
+    },
+    {
+      "parameters": {
+        "content": "Criado por Rodrigo Tanci",
+        "height": 80,
+        "color": 7
+      },
+      "id": "5e147568-c035-4ab1-9b08-93eee7eb0973",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -960,
+        -4800
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Transcreve audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Baixa audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcreve audio": {
+      "main": [
+        [
+          {
+            "node": "Envia mensagem",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baixa audio": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Infos": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Infos",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "05a13006-8386-46ab-b02a-d808c44b2bd0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "33738330930e3881dd5571eca013f36ddf8aab20e4ea5c1f2ebaf4a2b4668ac6"
+  },
+  "id": "85Rpbtjwp6pcBx2d",
+  "tags": [
+    {
+      "createdAt": "2024-06-24T17:54:45.734Z",
+      "updatedAt": "2024-06-24T17:54:45.734Z",
+      "id": "W4QFAwjDhUwUJMhH",
+      "name": "Dev"
+    }
+  ]
+}
