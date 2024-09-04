@@ -191,25 +191,25 @@
             {
               "id": "8191c57f-d67c-47b5-ad04-347f23c5cc1e",
               "name": "url_chatwoot",
-              "value": "https://chat.setabot.com.br",
+              "value": "https://urlchatwoot.com.br",
               "type": "string"
             },
             {
               "id": "86b8bcee-0dde-4b04-914a-434e8afea011",
               "name": "account_chatwoot",
-              "value": "1",
+              "value": "account id",
               "type": "string"
             },
             {
               "id": "466cf143-3272-4602-b205-404589b8c1a5",
               "name": "token_chatwoot",
-              "value": "ZiyV29UVmQLB8jDKa1JMhe2k",
+              "value": "token chatwoot",
               "type": "string"
             },
             {
               "id": "47fe3562-a12e-4e6c-8c7b-5daa2cccff95",
               "name": "token_groq",
-              "value": "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",
+              "value": "token groq",
               "type": "string"
             }
           ]
