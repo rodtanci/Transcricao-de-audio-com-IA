@@ -69,6 +69,16 @@
                 "operation": "equals",
                 "name": "filter.operator.equals"
               }
+            },
+            {
+              "id": "650fb578-b72b-4fc1-8a79-9f31e75bd9d2",
+              "leftValue": "={{ $('Webhook').item.json.body.content }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "empty",
+                "singleValue": true
+              }
             }
           ],
           "combinator": "and"
@@ -103,7 +113,7 @@
         },
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={\n  \"content\": \"Transcrição:\\n{{ $json.text }}\"\n} ",
+        "jsonBody": "={\n  \"content\": \"Transcrição:\\n{{ $json.text }}\",\n  \"private\": true\n} ",
         "options": {}
       },
       "id": "31fe2d80-3d38-4dbc-9ad0-0158c693b89d",
@@ -191,25 +201,25 @@
             {
               "id": "8191c57f-d67c-47b5-ad04-347f23c5cc1e",
               "name": "url_chatwoot",
-              "value": "https://urlchatwoot.com.br",
+              "value": "https://url.chatwoot.com.br",
               "type": "string"
             },
             {
               "id": "86b8bcee-0dde-4b04-914a-434e8afea011",
               "name": "account_chatwoot",
-              "value": "account id",
+              "value": "1",
               "type": "string"
             },
             {
               "id": "466cf143-3272-4602-b205-404589b8c1a5",
               "name": "token_chatwoot",
-              "value": "token chatwoot",
+              "value": "token do chatwoot",
               "type": "string"
             },
             {
               "id": "47fe3562-a12e-4e6c-8c7b-5daa2cccff95",
               "name": "token_groq",
-              "value": "token groq",
+              "value": "token do groq",
               "type": "string"
             }
           ]
@@ -326,7 +336,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "e9f8a6ff-0509-48a1-9acf-c16c431ddada",
+  "versionId": "f7dfb03b-0e24-43a7-b853-5dabd92129a1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "33738330930e3881dd5571eca013f36ddf8aab20e4ea5c1f2ebaf4a2b4668ac6"
